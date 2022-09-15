@@ -33,15 +33,15 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.13/community" >> /etc/
     php7-ldap@community \
     php7-simplexml@community \
  && cd /tmp \
- && wget -q https://www.rainloop.net/repository/webmail/rainloop-latest.zip \
- && wget -q https://www.rainloop.net/repository/webmail/rainloop-latest.zip.asc \
+ && wget -q https://github.com/RainLoop/rainloop-webmail/releases/download/v1.17.0/rainloop-legacy-1.17.0.zip \
+ && wget -q https://github.com/RainLoop/rainloop-webmail/releases/download/v1.17.0/rainloop-legacy-1.17.0.zip.asc \
  && wget -q https://www.rainloop.net/repository/RainLoop.asc \
  && gpg --import RainLoop.asc \
- && FINGERPRINT="$(LANG=C gpg --verify rainloop-latest.zip.asc rainloop-latest.zip 2>&1 \
+ && FINGERPRINT="$(LANG=C gpg --verify rainloop-legacy-1.17.0.zip.asc rainloop-legacy-1.17.0.zip 2>&1 \
   | sed -n "s#Primary key fingerprint: \(.*\)#\1#p")" \
  && if [ -z "${FINGERPRINT}" ]; then echo "ERROR: Invalid GPG signature!" && exit 1; fi \
  && if [ "${FINGERPRINT}" != "${GPG_FINGERPRINT}" ]; then echo "ERROR: Wrong GPG fingerprint!" && exit 1; fi \
- && mkdir /rainloop && unzip -q /tmp/rainloop-latest.zip -d /rainloop \
+ && mkdir /rainloop && unzip -q /tmp/rainloop-legacy-1.17.0.zip -d /rainloop \
  && find /rainloop -type d -exec chmod 755 {} \; \
  && find /rainloop -type f -exec chmod 644 {} \; \
  && apk del build-dependencies \
